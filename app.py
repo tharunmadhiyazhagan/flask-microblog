@@ -19,6 +19,7 @@ def create_app():
 
   @app.route("/", methods=["GET", "POST"])
   def home():
+    entries_with_date = []
     if request.method == "GET":
       try:
         # Check if there are any entries in the database
@@ -42,10 +43,10 @@ def create_app():
       formatted_date = datetime.datetime.today().strftime("%Y-%m-%d")
       app.db.entries.insert_one({"content": entry_content, "date": formatted_date})
 
-    # entries_with_date = [
-    #   (entry["content"], entry["date"], datetime.datetime.strptime(entry["date"], "%Y-%m-%d").strftime("%b %d"))
-    #   for entry in app.db.entries.find({})
-    # ]
+      entries_with_date = [
+        (entry["content"], entry["date"], datetime.datetime.strptime(entry["date"], "%Y-%m-%d").strftime("%b %d"))
+        for entry in app.db.entries.find({})
+      ]
     return render_template("home.html", entries=entries_with_date)
   return app   
 
