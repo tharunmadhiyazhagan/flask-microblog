@@ -17,7 +17,7 @@ def create_app():
         print("Error connecting to MongoDB:", str(e))
         app.db = None  # Set app.db to None to indicate a failed connection
   
-  app.run(host="0.0.0.0", port=80)
+  app.run()
 
 
   @app.route("/", methods=["GET", "POST"])
