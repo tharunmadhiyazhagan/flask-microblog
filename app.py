@@ -20,6 +20,7 @@ def create_app():
   @app.route("/", methods=["GET", "POST"])
   def home():
     if request.method == "GET":
+      try:
         # Check if there are any entries in the database
         num_entries = app.db.entries.count_documents({})
 
@@ -32,6 +33,9 @@ def create_app():
         else:
             # If there are no entries, set entries_with_date to an empty list
             entries_with_date = []
+      except Exception as e:         
+        print("Error connecting to MongoDB:", str(e))
+         
 
     if request.method == "POST":
       entry_content = request.form.get("content")
