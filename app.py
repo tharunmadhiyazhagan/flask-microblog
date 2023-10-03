@@ -8,6 +8,7 @@ load_dotenv()
 
 def create_app():
   app = Flask(__name__)
+  
   try:
       client = MongoClient(os.getenv("MONGODB_URI"))
       app.db = client.microblog2
@@ -15,6 +16,8 @@ def create_app():
   except Exception as e:
         print("Error connecting to MongoDB:", str(e))
         app.db = None  # Set app.db to None to indicate a failed connection
+  
+  app.run(host="0.0.0.0", port=80)
 
 
   @app.route("/", methods=["GET", "POST"])
